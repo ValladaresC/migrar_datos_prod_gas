@@ -71,9 +71,29 @@ Los principales retos de estas macros fueron:
 - La compatibilidad en los formatos de las columnas de origen y destino. Uno de estos retos fue nombrado en los Warnings anteriores. Otro reto fue formatear la fecha en la macro para hacerla coincidir con el formato más común usado en SQL Server (YYYY-MM-DD).
 - La inserción de miles de datos ya que en una sola operación puede ser muy lento o generar errores si no se hace de manera óptima. La macro implementó un sistema de batching (por ejemplo, cada 500 filas) para mejorar el rendimiento y reducir la carga en la base de datos destino. 
 - La construcción segura de cadenas SQL, ya que concatenar grandes cadenas de valores para las sentencias INSERT o UPDATE puede ser complejo y propenso a errores, especialmente si los datos contienen comillas o caracteres especiales. La macro debe asegurarse de formatear correctamente los datos y manejar casos especiales para evitar errores de sintaxis.
-- Todas las macros pueden ser vista en la carpeta Macros de los archivos adjuntos.
+- Todas las macros pueden ser vista en la carpeta Macros de los archivos adjuntos o en el archivo GO_GAS.xlsm.
 
+### 4. Creación de visualizaciones en Power BI
 
+Tomando como referencia los informes presentados en el pasado a la junta directiva y como última actividad ejecutada, se creó un dashboard con Power Bi que permitió a la junta directiva de la empresa observar de forma más ordenada y clara el comportamiento de los datos en sus reuniones semanales y mensuales para la toma de decisiones estratégicas.
+
+Este nuevo informe tiene la ventaja de actualizarse luego de haber realizado la carga de datos en SQL Server ya que su modelo dimensional es alimentado mediante vistas SQL. Observar vistas creadas en el archivo Prod_Gas_DML.sql
+
+Su modelo dimensional quedó estructurado de la siguiente manera, y se observa una tabla organizadora de medidas DAX. Consta de:
+- Dos tablas dimensionales provenientes del modelo relacional, dim_areas y dim_campos
+- Una tabla dimensional creada con lenguaje DAX para la gestión de fechas, dim_calendar
+- Dos tablas de hechos provenientes del modelo relacional, fct_planes_prod y fct_produc_gas
+
+![image](https://github.com/user-attachments/assets/2a6b2753-ce02-4448-9b0d-639961861421)
+
+Todas la tablas provenientes del modelo relacional fueron vinculadas con Power BI mediante la creación de vistas SQL y las cuales se actualizan automáticamente al abrir el ejecutable de Power Bi Desktop o solo con presionar el botón 'Actualizar'.
+
+El dashboard consta de:
+- Portada: Con botones que dirigen al usuario a la hoja de su interés.
+- 2 hojas donde se muestra la variación semanal de producción total, por área y campos, con sus respectivos filtros por año, semana y área.
+- 2 hojas donde se muestra la variación mensual de producción total, por área y campos, con sus respectivos filtros por año, semana y área.
+
+![image](https://github.com/user-attachments/assets/2c656fc6-2b1b-4d65-8d2c-010c764a4d57)
 
 
 
