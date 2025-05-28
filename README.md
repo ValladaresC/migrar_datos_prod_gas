@@ -43,8 +43,6 @@ Se implementó el modelo lógico en SQL Server creando las tablas con las instru
 #### 2.4. Agregación de auditoría:
 Se crearon tablas de auditoría (auditoria_produc_gas y auditoria_planes_prod) para las tablas más importantes del modelo que son produc_gas y planes_prod. Para alimentar estas tablas se utilizaron Triggers o disparadores, los cuales ante cualquier operación como insert, update o delete, guardarán la fecha/hora, datos y tipo de operación ejecutada. Ver el archivo Prod_Gas_DDL.sql
 
-
-
 #### 2.5. Creación de maqueta del modelo dimensional:
 Fue creado este modelo, aunque en esta etapa del proyecto aun no se tenía pensado su utilización.
 
@@ -52,16 +50,28 @@ Fue creado este modelo, aunque en esta etapa del proyecto aun no se tenía pensa
 
 ### 3. Proceso ETL.
 Se creo un archivo Excel nuevo llamado GO_GAS (habilitado para macros) donde se lleva a cabo el proceso ETL.
-3.1 Extracción: mediante la herramienta Obtener Datos de Excel se realizó el llamado al archivo origen DATAGAS.xlsx
-3.2 Transformación: mediante la herramienta Power Query se hace una separación del contenido origen en diferentes tablas, quedando las mismas en diferentes hojas: ProducGas, PlanesProd, Campos, Areas; todas ellas con la misma estructura de las tablas destino en SQL Server.
-OJO: se formatearon las columnas de los volúmenes de planes y producción, llevando los valores decimales de coma hacia punto y convirtiendo estas columnas en tipo texto para que al hacer la carga coincida con la estructura tipo varchar de SQL Server. 
+
+#### 3.1 Extracción:
+Mediante la herramienta Obtener Datos de Excel se realizó el llamado al archivo origen DATAGAS.xlsx
+
+#### 3.2 Transformación:
+Mediante la herramienta Power Query se hace una separación del contenido origen en diferentes tablas, quedando las mismas en diferentes hojas: ProducGas, PlanesProd, Campos, Areas; todas ellas con la misma estructura de las tablas destino en SQL Server.
+
+> [!IMPORTANT]
+> Se formatearon las columnas de los volúmenes de planes y producción, llevando los valores decimales de coma hacia punto y convirtiendo estas columnas en tipo texto para que al hacer la carga coincida con la estructura tipo varchar de SQL Server. 
+
 En este mismo proceso se adicionó una hoja llamada Menú, la cual actúa como interfase para la interacción del administrador encargado de hacer la carga de datos, la cual tiene dos bloques de Menú: Inserción Total e Inserción Diaria.
-3.3 Carga: en esta etapa fueron realizadas las distintas macros que dan funcionalidad al Menú y que realizan la carga de datos hacia SQL Server. Las macros de inserción total sirvieron para hacer una carga total de los datos desde 2021 hasta la actualidad. Y las macros de inserción diaria sirvieron y servirán para realizar la migración diaria, semanal o mensual de la data, así también permite actualizar cualquier valor ya cargado. 
+
+![image](https://github.com/user-attachments/assets/e05bb2e9-2f15-408c-9653-9e5ff880e681)
+
+#### 3.3 Carga:
+En esta etapa fueron realizadas las distintas macros que dan funcionalidad al Menú y que realizan la carga de datos hacia SQL Server. Las macros de inserción total sirvieron para hacer una carga total de los datos desde 2021 hasta la actualidad. Y las macros de inserción diaria sirvieron y servirán para realizar la migración diaria, semanal o mensual de la data, así también permite actualizar cualquier valor ya cargado. 
+
 Los principales retos de estas macros fueron:
 - La compatibilidad en los formatos de las columnas de origen y destino. Uno de estos retos fue nombrado en los Warnings anteriores. Otro reto fue formatear la fecha en la macro para hacerla coincidir con el formato más común usado en SQL Server (YYYY-MM-DD).
 - La inserción de miles de datos ya que en una sola operación puede ser muy lento o generar errores si no se hace de manera óptima. La macro implementó un sistema de batching (por ejemplo, cada 500 filas) para mejorar el rendimiento y reducir la carga en la base de datos destino. 
 - La construcción segura de cadenas SQL, ya que concatenar grandes cadenas de valores para las sentencias INSERT o UPDATE puede ser complejo y propenso a errores, especialmente si los datos contienen comillas o caracteres especiales. La macro debe asegurarse de formatear correctamente los datos y manejar casos especiales para evitar errores de sintaxis.
-
+- Todas las macros pueden ser vista en la carpeta Macros de los archivos adjuntos.
 
 
 
