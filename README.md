@@ -1,7 +1,7 @@
 # migrar_datos_prod_gas
 
 > [!WARNING]
-> Por seguridad de los datos y políticas de confindecialidad de la empresa, los dataset quedan excluidos en los archivos adjuntos.
+> Por seguridad de los datos y políticas de confindecialidad de la empresa, los dataset quedan excluidos de los archivos adjuntos.
 
 El proyecto se centró en abordar la vulnerabilidad en la gestión de datos de producción de gas, los cuales actualmente se almacenan exclusivamente en archivos Excel desde 2021. Esta dependencia presenta riesgos de pérdida de información debido a posibles errores, fallos en los archivos, corrupción o limitaciones en la gestión de grandes volúmenes de datos. 
 
